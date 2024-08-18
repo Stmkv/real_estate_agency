@@ -4,12 +4,11 @@ from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-
 class Flat(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
     owner_pure_phone = PhoneNumberField(
-    verbose_name='Нормализованный номер владельца', blank=True, null=True
-    )
+        verbose_name='Нормализованный номер владельца', blank=True, null=True
+        )
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     new_building = models.BooleanField("Новостройка")
     created_at = models.DateTimeField(
@@ -85,11 +84,15 @@ class Owner(models.Model):
     full_name = models.CharField(
         'ФИО владельца',
         max_length=200,
+        db_index=True,
         blank=True,
         null=True
     )
     pure_phone = PhoneNumberField(
-        verbose_name='Нормализованный номер владельца', blank=True, null=True
+        verbose_name='Нормализованный номер владельца',
+        db_index=True,
+        blank=True,
+        null=True
     )
     phonenumber = models.CharField(
         'Номер владельца', max_length=20, blank=True, null=True
@@ -102,4 +105,4 @@ class Owner(models.Model):
     )
 
     def __str__(self):
-        return f'{self.owner}'
+        return f'{self.full_name}'
