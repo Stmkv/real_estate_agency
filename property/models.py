@@ -43,7 +43,10 @@ class Flat(models.Model):
     has_balcony = models.NullBooleanField('Наличие балкона', db_index=True)
     active = models.BooleanField('Активно-ли объявление', db_index=True)
     who_liked = models.ManyToManyField(
-        User, verbose_name='Кто лайкнул', blank=True)
+        User,
+        verbose_name='Кто лайкнул',
+        blank=True,
+        related_name="liked")
     construction_year = models.IntegerField(
         'Год постройки здания',
         null=True,
@@ -67,7 +70,8 @@ class Complaint(models.Model):
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        verbose_name='Квартира, на которую пожаловались'
+        verbose_name='Квартира, на которую пожаловались',
+        related_name="complaints"
     )
     text = models.TextField('Текст жалобы', blank=True, null=True)
 
@@ -99,8 +103,9 @@ class Owner(models.Model):
         Flat,
         verbose_name='Квартиры в собственности',
         blank=True,
-        related_name='flats'
+        related_name='flats',
+
     )
 
     def __str__(self):
-        return f'{self.full_name}'
+        return self.full_name
