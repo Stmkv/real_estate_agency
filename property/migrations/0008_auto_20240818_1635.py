@@ -11,7 +11,8 @@ def normalize_flat_phonenumbers(apps, schema_editor):
         final_number = phonenumbers.format_number(
             number_parse, phonenumbers.PhoneNumberFormat.E164
         )
-        Flat.objects.filter(id=flat.id).update(owner_pure_phone=final_number)
+        flat.owner_pure_phone = final_number
+        flat.save()
 
 
 class Migration(migrations.Migration):
